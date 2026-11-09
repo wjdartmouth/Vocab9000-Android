@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vocab9000</string>
+    <string name="tab_catalog">词库</string>
+    <string name="tab_decks">卡组</string>
+    <string name="tab_study">学习</string>
+    <string name="tab_stats">统计</string>
+    <string name="tab_settings">设置</string>
+    <string name="catalog_search">搜索单词</string>
+    <string name="catalog_all_letters">全部</string>
+    <string name="catalog_all_pos">全部词性</string>
+    <string name="catalog_count">%1$d 词</string>
+    <string name="word_en_def">英语释义</string>
+    <string name="word_mastered">已掌握</string>
+    <string name="word_mark_mastered">标记已掌握</string>
+    <string name="word_add_to_deck">加入我的卡组</string>
+    <string name="deck_create">新建卡组</string>
+    <string name="deck_builtin">内置</string>
+    <string name="study_flip">翻面</string>
+    <string name="study_speak">发音</string>
+    <string name="study_start">开始学习</string>
+    <string name="srs_again">重来</string>
+    <string name="srs_hard">困难</string>
+    <string name="srs_good">一般</string>
+    <string name="srs_easy">简单</string>
+    <string name="stats_mastered">已掌握</string>
+    <string name="stats_due_today">今日到期</string>
+    <string name="stats_streak">连续天数</string>
+    <string name="settings_reminder_toggle">每日学习提醒</string>
+    <string name="settings_tts">朗读 (TTS)</string>
+    <string name="action_save">保存</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_close">关闭</string>
+    <string name="loading">加载中…</string>
+</resources>
