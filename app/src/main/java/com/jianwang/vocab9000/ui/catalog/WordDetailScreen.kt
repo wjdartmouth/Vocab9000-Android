@@ -14,7 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -110,7 +110,7 @@ fun WordDetailScreen(
                 FilledTonalButton(onClick = {
                     container.speech.speak(entry.word, container.prefs.ttsLanguage)
                 }) {
-                    Icon(Icons.Default.VolumeUp, contentDescription = null)
+                    Icon(Icons.AutoMirrored.Filled.VolumeUp, contentDescription = null)
                     Text("  " + stringResource(R.string.study_speak))
                 }
                 Button(onClick = {

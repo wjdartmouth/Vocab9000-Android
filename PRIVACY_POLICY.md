@@ -1,9 +1,9 @@
 # Privacy Policy — Vocab9000 (Android)
 
-**Last updated:** 9 November 2026  
+**Last updated:** 10 November 2026  
 **App:** Vocab9000 (`com.jianwang.vocab9000`)  
 **Developer:** Jian Wang  
-**Contact:** [GitHub Issues](https://github.com/wjdartmouth/Vocab9000/issues)
+**Contact:** [GitHub Issues](https://github.com/wjdartmouth/Vocab9000-Android/issues)
 
 This policy describes how the Android edition of Vocab9000 handles information. The app is designed for on-device learning with minimal data leaving your device.
 
@@ -54,7 +54,7 @@ We may update this policy when the app’s practices change. The “Last updated
 
 ### Contact
 Questions about privacy: open an issue at  
-https://github.com/wjdartmouth/Vocab9000/issues
+https://github.com/wjdartmouth/Vocab9000-Android/issues
 
 ---
 
@@ -65,6 +65,6 @@ Vocab9000（Android）は **アカウント不要・広告なし・トラッキ�
 - **端末内:** 学習進捗・デッキ・間隔反復データなどは **Room** 等で端末に保存します。当社のユーザーデータ用サーバーはありません。  
 - **任意の通信:** 英語の定義表示時のみ **Free Dictionary API** に英単語を問い合わせ、成功時は端末にキャッシュします。失敗・オフラインでもバンドル訳で学習できます。  
 - **通知:** 設定でオンにした場合のみ **ローカル通知**（サーバー配信ではありません）。  
-- **連絡先:** https://github.com/wjdartmouth/Vocab9000/issues
+- **連絡先:** https://github.com/wjdartmouth/Vocab9000-Android/issues
 
 詳細は上記 English 本文に準じます。

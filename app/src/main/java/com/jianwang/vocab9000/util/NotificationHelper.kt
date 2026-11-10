@@ -57,12 +57,31 @@ object NotificationHelper {
             }
         }
         val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        am.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            cal.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            pi,
-        )
+        // One-shot: ReminderReceiver reschedules the next day. Prefer exact when
+        // SCHEDULE_EXACT_ALARM is granted (API 31+); otherwise use inexact.
+        val canExact = Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
+            am.canScheduleExactAlarms()
+        try {
+            if (canExact) {
+                am.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    pi,
+                )
+            } else {
+                am.setAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    cal.timeInMillis,
+                    pi,
+                )
+            }
+        } catch (_: SecurityException) {
+            am.setAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                cal.timeInMillis,
+                pi,
+            )
+        }
     }
 
     fun cancel(context: Context) {

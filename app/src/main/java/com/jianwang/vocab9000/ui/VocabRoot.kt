@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Layers
-import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -41,7 +41,7 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 private sealed class Tab(val route: String, val labelRes: Int, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
-    data object Catalog : Tab("tab_catalog", R.string.tab_catalog, Icons.Filled.MenuBook)
+    data object Catalog : Tab("tab_catalog", R.string.tab_catalog, Icons.AutoMirrored.Filled.MenuBook)
     data object Decks : Tab("tab_decks", R.string.tab_decks, Icons.Filled.Layers)
     data object Study : Tab("tab_study", R.string.tab_study, Icons.Filled.School)
     data object Stats : Tab("tab_stats", R.string.tab_stats, Icons.Filled.BarChart)
