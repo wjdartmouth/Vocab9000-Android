@@ -25,15 +25,21 @@ iOS 版 [Vocab9000](https://github.com/wjdartmouth/Vocab9000) と機能を揃え
 ## Android Studio で開く
 
 1. Android Studio を起動 → **File → Open** → このリポジトリのルート（`Vocab9000-Android` / `settings.gradle.kts` があるフォルダ）を選択
-2. Gradle Sync を実行（初回は依存関係のダウンロードに数分かかることがあります）
+2. **Sync Project with Gradle Files** を実行（初回は Gradle 8.9 と依存関係のダウンロードに数分かかることがあります）
 3. エミュレータまたは実機を選び **Run ▶**
 
-Gradle Wrapper が未同梱の場合、Android Studio がプロジェクトを開いたときに Wrapper を生成・利用します。CLI で使う場合:
+公式 Gradle Wrapper（Gradle 8.9）はリポジトリに同梱しています（`gradlew` / `gradlew.bat` / `gradle/wrapper/`）。Android Studio が `local.properties` の `sdk.dir` を自動生成します。
+
+## コマンドラインでビルド
+
+JDK 17 と Android SDK（compile/target API 35）を用意し、`local.properties` に SDK パスを書いてから:
 
 ```bash
-# Android Studio 同梱の SDK / JDK を使い、プロジェクト内で:
+# 例: cp local.properties.example local.properties  して sdk.dir を編集
 ./gradlew :app:assembleDebug
 ```
+
+`local.properties` は gitignore されています。パスの書き方は [local.properties.example](./local.properties.example) を参照してください。
 
 ## 機能
 
@@ -63,6 +69,7 @@ Vocab9000-Android/
 │   ├── domain/        # CatalogEntry, SRSService, StudyItem
 │   └── ui/            # Compose screens (catalog/decks/study/stats/settings)
 ├── app/src/main/assets/longman9000.json
+├── gradle/wrapper/    # Official Gradle 8.9 wrapper
 └── README.md
 ```
 
@@ -70,6 +77,7 @@ Vocab9000-Android/
 
 - 組み込み「All」デッキは約 9000 語の仮想デッキです。FlashCard を 9000 枚物性化せず、Progress 集計で扱います（iOS と同じ方針）。
 - ホーム画面ウィジェットは Android 版では未実装（将来対応可）。詳細は [REPORT.md](./REPORT.md)。
+- 出荷状況・残作業は [SHIP_STATUS.md](./SHIP_STATUS.md) を参照してください。
 
 ## ライセンス / 帰属
 
