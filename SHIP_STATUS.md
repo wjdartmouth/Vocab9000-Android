@@ -1,32 +1,35 @@
 # Vocab9000 Android — ship status
 
-**Date:** 2026-11-10 Asia/Hong_Kong  
+**Date:** 2026-11-11 Asia/Hong_Kong  
 **Target:** Play Store shippable by 2026-11-30 Asia/Hong_Kong  
-**Days left:** 20
+**Days left:** 19
 
-## Landed this run (2026-11-10)
+## Landed this run (2026-11-11)
 
-- Official **Gradle 8.9 wrapper** is now in the repo: `gradlew`, `gradlew.bat`, and `gradle/wrapper/gradle-wrapper.jar` taken from the Gradle `v8.9.0` tag (JAR SHA-256 `498495120a03b9a6ab5d155f5de3c8f0d986a449153702fb80fc80e134484f17`). `distributionUrl` remains `gradle-8.9-bin.zip`; `distributionSha256Sum` is set to the official checksum `d725d707bfabd4dfdc958c624003b3c80accc03f7037b5122c4b1d0ef15cecab`.
-- README run steps no longer say the wrapper may be missing. CLI steps document JDK 17, Android SDK, and `local.properties` (`sdk.dir`). `local.properties.example` lists macOS / Linux / Windows paths.
-- On this agent box, Debian apt mirrors returned HTTP 500, so JDK 17 was installed from **Eclipse Temurin 17.0.21+9** (not via apt). Android command-line tools **15859902** plus `platforms;android-35`, `build-tools;35.0.0` (Gradle also pulled `build-tools;34.0.0`), and `platform-tools` were installed to `/home/box/Android/Sdk`. These toolchain installs are **local to the box**, not committed.
-- `./gradlew :app:assembleDebug` was run and **succeeded** (debug APK packaged). First compile failure was a Material 3 API mismatch in Settings (`ExposedDropdownMenu` is a scope member, not a top-level import; `menuAnchor` updated to `MenuAnchorType.PrimaryNotEditable`). Also fixed a missing `import androidx.compose.ui.unit.dp` in `SettingsScreen.kt` that would have failed the same compile.
-- Light ship harden:
-  - Daily reminder uses a one-shot alarm and reschedules: `setExactAndAllowWhileIdle` when `canScheduleExactAlarms()` is true (API 31+), otherwise `setAndAllowWhileIdle`, with a `SecurityException` fallback. `ReminderReceiver` no longer fires if the user has turned reminders off.
-  - `BootReceiver` stays `exported="true"` (required for system `BOOT_COMPLETED`) and also handles `MY_PACKAGE_REPLACED` so reminders are restored after an app update.
-  - `MainActivity` is `singleTop` so the `vocab9000://study` notification / deep link reuses the activity and `onNewIntent` runs.
-  - RTL-aware AutoMirrored icons for catalog and speak actions (clears Material icon deprecation warnings).
-- Privacy contact URLs now point at the **Android** repo issues (`https://github.com/wjdartmouth/Vocab9000-Android/issues`), not the iOS repo. Last updated: 10 November 2026.
-- Empty `res/values-ja/` (no files; never tracked in git) was leftover. Default `values/strings.xml` is already Japanese, so there is no Japanese-string resource gap.
+- **Release signing** is wired in `app/build.gradle.kts` without secrets in git. If `keystore.properties` exists at the repo root, the release `signingConfig` is applied (`storeFile` may be relative to the repo root or absolute). If it does not exist, release builds still enable minify but stay unsigned. `.gitignore` now excludes `keystore.properties`, `*.jks`, `*.keystore`, and upload-keystore filenames. See [keystore.properties.example](./keystore.properties.example) and [SIGNING.md](./SIGNING.md) for `keytool` (JDK 17), Play App Signing (upload key vs Google-held app signing key), and build commands. The developer must create the **real Play upload key**; any keystore generated on this agent box is a local throwaway only.
+- **R8 minify** is on for release: `isMinifyEnabled = true` and `isShrinkResources = true`. [app/proguard-rules.pro](./app/proguard-rules.pro) keeps Room entities and converters, Gson `TypeToken` plus `DefinitionService.FreeDictionaryResponse` (and nested API models), and `SRSGrade` enum members. Catalog JSON is parsed with `JsonParser`, not mapped POJOs. Coroutines / DataStore / WorkManager rely on their consumer rules (DataStore and WorkManager are dependencies but not used directly by app code today). Compose is left on the default Android optimize file.
+- On this box, a throwaway upload keystore was created **outside the git tree** (`/home/box/.vocab9000-keystore/`, with a gitignored local `keystore.properties`). It is **not** the production Play upload key and must not be reused for store upload.
+- `./gradlew :app:bundleRelease` **succeeded** (R8 + resource shrink + signed AAB). Output: `app/build/outputs/bundle/release/app-release.aab` (about 3.6 MB on this run). `./gradlew :app:assembleRelease` also **succeeded**: `app/build/outputs/apk/release/app-release.apk` (about 1.8 MB; APK Signature Scheme v2 verified). AAB/APK files are gitignored and were not committed. Harmless notes: AGP still warns that command-line SDK XML is newer than this AGP understands; native-lib strip skipped `libandroidx.graphics.path.so` and `libdatastore_shared_counter.so` and packaged them as-is.
+- **Chinese strings are complete.** `values-zh-rCN` (Simplified) and `values-zh-rTW` (Traditional) now include all 88 keys from the default `values/strings.xml` (the previous 56 missing keys are filled). Placeholders (`%1$d`, `%1$s`, `%2$d`) match the Japanese default and English. Existing translations were kept. `values-en` was already complete.
+- Draft Play listing copy is in [STORE_LISTING.md](./STORE_LISTING.md) (EN, JA, zh-CN, zh-TW short + full descriptions). No screenshots or feature graphic were invented. The privacy policy still needs a **public HTTPS URL**.
+
+## How to build a signed release
+
+JDK 17, Android SDK, `local.properties` (`sdk.dir`), plus `keystore.properties` pointing at your upload keystore (see [SIGNING.md](./SIGNING.md)):
+
+```bash
+./gradlew :app:bundleRelease    # Play: app/build/outputs/bundle/release/app-release.aab
+./gradlew :app:assembleRelease  # Sideload: app/build/outputs/apk/release/app-release.apk
+```
 
 ## Remaining blockers / next-run work
 
-1. **Release signing** — release build still has `isMinifyEnabled = false` and no `signingConfig` / keystore notes. Need a Play upload keystore (kept off git), `signingConfig` for release, and a short local signing doc. Then `assembleRelease` / Play App Signing.
-2. **R8 / ProGuard** — enable minify for release and verify Room, Gson, and TTS still work after shrinking.
-3. **Chinese strings incomplete** — `values-zh-rCN` and `values-zh-rTW` each miss 56 keys (notifications, settings, study status, deck editor, etc.) and fall back to Japanese. Fill those translations before store listing in those locales.
-4. **Play Console listing** — store copy, screenshots, feature graphic, content rating, privacy questionnaire, and Data safety form are not started. Use the updated `PRIVACY_POLICY.md` (host a public URL).
-5. **Exact alarms on API 33+** — `SCHEDULE_EXACT_ALARM` is declared but not granted by default on newer Android. Inexact fallback is in place; optional Settings UX to send the user to the system exact-alarm screen if they want a precise reminder.
-6. **Home-screen widget** — intentionally deferred; do not treat as this milestone unless time remains after signing and listing.
-7. **Device / Play pre-launch testing** — debug assemble succeeded on this box; still need emulator or device run-through (catalog seed, study, TTS, reminder, deep link) and a release AAB install smoke test.
-8. AGP 8.7.3 warns that current command-line SDK XML is newer than this AGP understands. Harmless for the debug build; revisit only if it blocks a later SDK package.
+1. **Real Play upload keystore** — the developer must generate and back up a production upload key (not the box throwaway), keep it off git, and point `keystore.properties` at it before a Play upload.
+2. **Play Console listing** — screenshots, feature graphic, high-res icon, content rating, Data safety form, and store listing publication. Draft text is in `STORE_LISTING.md`.
+3. **Hosted privacy policy URL** — [PRIVACY_POLICY.md](./PRIVACY_POLICY.md) exists in-repo but Play requires a public HTTPS page.
+4. **Device / emulator smoke test** — catalog seed, study / SRS, TTS, reminder, `vocab9000://study` deep link, and a release AAB/APK install check on a real API 26+ device or emulator. Release packaging succeeded on this box; runtime was not exercised here.
+5. **Exact alarms on API 33+** — `SCHEDULE_EXACT_ALARM` is declared but not granted by default on newer Android. Inexact fallback is in place; optional Settings UX to open the system exact-alarm screen remains optional.
+6. **Home-screen widget** — still deferred; not part of this milestone unless time remains after listing work.
+7. AGP 8.7.3 still warns that current command-line SDK XML is newer than this AGP understands. Harmless for the successful release builds; revisit only if it blocks a later SDK package.
 
-**ETA:** 20 days remain. Wrapper + debug compile are unblocked. Highest-priority next run: release signing + minify, then zh string fill and Play listing assets.
+**ETA:** 19 days remain until 2026-11-30. Signing, minify, and Chinese strings are unblocked; a signed, shrunk AAB can be produced once the real upload key is in place. Highest-priority next work: developer upload key + hosted privacy URL + Play Console assets (screenshots, content rating, Data safety) and a device smoke test.

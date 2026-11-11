@@ -89,7 +89,7 @@ Vocab9000-Android/
 
 - 組み込み「All」デッキは約 9000 語の仮想デッキです。FlashCard を 9000 枚物性化せず、Progress 集計で扱います（iOS と同じ方針）。
 - ホーム画面ウィジェットは Android 版では未実装（将来対応可）。詳細は [REPORT.md](./REPORT.md)。
-- 出荷状況・残作業は [SHIP_STATUS.md](./SHIP_STATUS.md) を参照してください。
+- 出荷状況・残作業は [SHIP_STATUS.md](./SHIP_STATUS.md) を参照してください。Play 掲載文案の下書きは [STORE_LISTING.md](./STORE_LISTING.md) にあります。
 
 ## ライセンス / 帰属
 
