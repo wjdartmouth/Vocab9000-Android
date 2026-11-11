@@ -41,6 +41,17 @@ JDK 17 と Android SDK（compile/target API 35）を用意し、`local.propertie
 
 `local.properties` は gitignore されています。パスの書き方は [local.properties.example](./local.properties.example) を参照してください。
 
+## リリースビルド（Play 提出用）
+
+アップロード用キーストアの作成、git に含めない `keystore.properties` の設定、R8 minify 付きのリリースビルドは [SIGNING.md](./SIGNING.md) を参照してください。
+
+```bash
+./gradlew :app:bundleRelease    # Play 提出用 AAB: app/build/outputs/bundle/release/app-release.aab
+./gradlew :app:assembleRelease  # サイドロード用 APK: app/build/outputs/apk/release/app-release.apk
+```
+
+`keystore.properties` が無い場合でも minify は有効ですが、成果物は未署名になります（Play には提出できません）。キーストアとパスワードはコミットしないでください。
+
 ## 機能
 
 - **カタログ**: A–Z / 品詞フィルタ / 検索、単語詳細、TTS、覚えたマーク、マイデッキへ追加
@@ -70,6 +81,7 @@ Vocab9000-Android/
 │   └── ui/            # Compose screens (catalog/decks/study/stats/settings)
 ├── app/src/main/assets/longman9000.json
 ├── gradle/wrapper/    # Official Gradle 8.9 wrapper
+├── SIGNING.md         # Release signing + bundleRelease
 └── README.md
 ```
 

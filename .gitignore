@@ -16,3 +16,9 @@ app/build/
 *.log
 *.hprof
 REPORT.md
+
+# Release signing — never commit secrets or keystores
+keystore.properties
+*.jks
+*.keystore
+*upload-keystore*
