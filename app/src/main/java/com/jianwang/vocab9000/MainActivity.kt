@@ -1,5 +1,6 @@
 package com.jianwang.vocab9000
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,9 +11,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.jianwang.vocab9000.ui.VocabRoot
 import com.jianwang.vocab9000.ui.theme.Vocab9000Theme
+import com.jianwang.vocab9000.util.AppLocale
 
 class MainActivity : ComponentActivity() {
     private var openStudy by mutableStateOf(false)
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(AppLocale.wrap(newBase))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

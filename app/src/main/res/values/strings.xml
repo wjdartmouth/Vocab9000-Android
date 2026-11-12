@@ -65,8 +65,11 @@
     <string name="settings_time_updated">時刻を更新しました</string>
     <string name="settings_tts">読み上げ (TTS)</string>
     <string name="settings_tts_language">TTS 言語</string>
-    <string name="settings_ui_language">UI 言語（設定保存）</string>
-    <string name="settings_ui_lang_hint">UI 言語設定を保存しました。一部文言はアプリ再起動後に反映されます。</string>
+    <string name="settings_ui_language">UI 言語</string>
+    <string name="settings_ui_lang_hint">UI 言語を切り替えました</string>
+    <string name="settings_exact_alarm_title">正確な時刻のアラーム</string>
+    <string name="settings_exact_alarm_granted">指定した時刻に通知できます</string>
+    <string name="settings_exact_alarm_denied">正確な時刻が許可されていません（通知が遅れる場合があります）。タップしてシステム設定を開く</string>
     <string name="settings_deeplink">ディープリンク</string>
     <string name="settings_deeplink_study">学習タブを開きます</string>
     <string name="lang_en">英語</string>

@@ -1,6 +1,7 @@
 package com.jianwang.vocab9000.ui.settings
 
 import android.Manifest
+import android.app.Activity
 import android.app.TimePickerDialog
 import android.content.pm.PackageManager
 import android.os.Build
@@ -26,6 +27,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -34,9 +36,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.jianwang.vocab9000.AppContainer
 import com.jianwang.vocab9000.R
 import com.jianwang.vocab9000.util.NotificationHelper
@@ -74,7 +79,9 @@ fun SettingsScreen(
     var status by remember { mutableStateOf<String?>(null) }
     var ttsExpanded by remember { mutableStateOf(false) }
     var uiExpanded by remember { mutableStateOf(false) }
+    var exactAllowed by remember { mutableStateOf(NotificationHelper.canScheduleExact(context)) }
     val scope = rememberCoroutineScope()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -97,7 +104,7 @@ fun SettingsScreen(
     fun reschedule() {
         scope.launch {
             val due = try {
-                container.stats.snapshot().dueToday
+                container.stats.dueTodayCount()
             } catch (_: Exception) {
                 0
             }
@@ -107,6 +114,17 @@ fun SettingsScreen(
                 NotificationHelper.cancel(context)
             }
         }
+    }
+
+    DisposableEffect(lifecycleOwner, notifEnabled) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                exactAllowed = NotificationHelper.canScheduleExact(context)
+                if (notifEnabled) reschedule()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     Scaffold(
@@ -179,6 +197,22 @@ fun SettingsScreen(
                     ).show()
                 },
             )
+            if (notifEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.settings_exact_alarm_title)) },
+                    supportingContent = {
+                        Text(
+                            stringResource(
+                                if (exactAllowed) R.string.settings_exact_alarm_granted
+                                else R.string.settings_exact_alarm_denied
+                            )
+                        )
+                    },
+                    modifier = Modifier.clickable(enabled = !exactAllowed) {
+                        NotificationHelper.openExactAlarmSettings(context)
+                    },
+                )
+            }
 
             Text(
                 stringResource(R.string.settings_tts),
@@ -249,7 +283,7 @@ fun SettingsScreen(
                                 uiLang = code
                                 prefs.uiLanguage = code
                                 uiExpanded = false
-                                status = context.getString(R.string.settings_ui_lang_hint)
+                                (context as? Activity)?.recreate()
                             },
                         )
                     }

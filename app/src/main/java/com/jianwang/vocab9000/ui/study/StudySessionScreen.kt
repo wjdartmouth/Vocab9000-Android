@@ -269,18 +269,26 @@ private fun StatusChip(item: StudyItem) {
 
 @Composable
 private fun GradeRow(item: StudyItem, onGrade: (SRSGrade) -> Unit) {
+    val state = SRSState(
+        easeFactor = item.easeFactor,
+        intervalDays = item.intervalDays,
+        repetitions = item.repetitions,
+        nextReviewDate = item.nextReviewDate,
+        lastReviewed = null,
+        isLearned = item.isLearned,
+    )
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             GradeButton(
                 label = stringResource(R.string.srs_again),
-                hint = SRSService.formatIntervalHintDays(0.0, SRSGrade.AGAIN),
+                hint = SRSService.formatIntervalHint(state, SRSGrade.AGAIN),
                 color = AgainOrange,
                 modifier = Modifier.weight(1f),
                 onClick = { onGrade(SRSGrade.AGAIN) },
             )
             GradeButton(
                 label = stringResource(R.string.srs_hard),
-                hint = SRSService.formatIntervalHintDays(item.intervalDays, SRSGrade.HARD),
+                hint = SRSService.formatIntervalHint(state, SRSGrade.HARD),
                 color = HardYellow,
                 modifier = Modifier.weight(1f),
                 onClick = { onGrade(SRSGrade.HARD) },
@@ -289,14 +297,14 @@ private fun GradeRow(item: StudyItem, onGrade: (SRSGrade) -> Unit) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             GradeButton(
                 label = stringResource(R.string.srs_good),
-                hint = SRSService.formatIntervalHintDays(item.intervalDays, SRSGrade.GOOD),
+                hint = SRSService.formatIntervalHint(state, SRSGrade.GOOD),
                 color = LearnedGreen,
                 modifier = Modifier.weight(1f),
                 onClick = { onGrade(SRSGrade.GOOD) },
             )
             GradeButton(
                 label = stringResource(R.string.srs_easy),
-                hint = SRSService.formatIntervalHintDays(item.intervalDays, SRSGrade.EASY),
+                hint = SRSService.formatIntervalHint(state, SRSGrade.EASY),
                 color = EasyBlue,
                 modifier = Modifier.weight(1f),
                 onClick = { onGrade(SRSGrade.EASY) },

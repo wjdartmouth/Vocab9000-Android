@@ -330,12 +330,22 @@ class SeedService(
     }
 
     suspend fun setLearned(catalogKey: String, word: String, learned: Boolean) {
-        applyGrade(
-            catalogKey = catalogKey,
-            word = word,
-            grade = if (learned) SRSGrade.GOOD else SRSGrade.AGAIN,
-            flashCardId = null,
+        val existing = db.progressDao().getByKey(catalogKey)
+        val row = existing ?: ProgressEntity(catalogKey = catalogKey, word = word)
+        val current = SRSState(
+            easeFactor = if (row.easeFactor == 0.0) 2.5 else row.easeFactor,
+            intervalDays = row.intervalDays,
+            repetitions = row.repetitions,
+            nextReviewDate = row.nextReviewDate?.let { Date(it) },
+            lastReviewed = row.lastReviewed?.let { Date(it) },
+            isLearned = row.isLearned,
         )
+        val state = if (learned) {
+            SRSService.markManuallyLearned(current)
+        } else {
+            SRSService.clearManualLearned()
+        }
+        db.progressDao().upsert(applyToProgress(row, state))
     }
 
     private fun applyToProgress(row: ProgressEntity, state: SRSState) = row.copy(

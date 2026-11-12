@@ -65,8 +65,11 @@
     <string name="settings_time_updated">Time updated</string>
     <string name="settings_tts">Text-to-speech</string>
     <string name="settings_tts_language">TTS language</string>
-    <string name="settings_ui_language">UI language preference</string>
-    <string name="settings_ui_lang_hint">UI language preference saved. Restart may be needed for some strings.</string>
+    <string name="settings_ui_language">UI language</string>
+    <string name="settings_ui_lang_hint">UI language updated</string>
+    <string name="settings_exact_alarm_title">Exact-time reminders</string>
+    <string name="settings_exact_alarm_granted">Reminders can fire at the time you set</string>
+    <string name="settings_exact_alarm_denied">Exact alarms are off, so reminders may be delayed. Tap to open system settings</string>
     <string name="settings_deeplink">Deep link</string>
     <string name="settings_deeplink_study">Opens the Study tab</string>
     <string name="lang_en">English</string>

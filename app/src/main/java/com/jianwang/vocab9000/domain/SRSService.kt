@@ -110,6 +110,36 @@ object SRSService {
         )
     }
 
+    /**
+     * Catalog "mark as mastered" toggle. A single Good review is not enough
+     * for isLearned (needs reps >= 2 or interval >= 6), so this writes a
+     * learned snapshot instead of going through [schedule].
+     */
+    fun markManuallyLearned(state: SRSState, now: Date = Date()): SRSState {
+        val interval = max(state.intervalDays, 6.0)
+        val cal = Calendar.getInstance()
+        cal.time = now
+        cal.add(Calendar.DAY_OF_YEAR, interval.roundToInt())
+        return state.copy(
+            easeFactor = max(state.easeFactor, 2.5),
+            intervalDays = interval,
+            repetitions = max(state.repetitions, 2),
+            lastReviewed = now,
+            nextReviewDate = cal.time,
+            isLearned = true,
+        )
+    }
+
+    /** Clear a manual mastered mark: the word returns to a new-card state. */
+    fun clearManualLearned(): SRSState = SRSState.DEFAULT
+
+    /** Next-interval caption for a grade button, based on the scheduled result. */
+    fun formatIntervalHint(state: SRSState, grade: SRSGrade, now: Date = Date()): String {
+        if (grade == SRSGrade.AGAIN) return "<10m"
+        val next = schedule(state, grade, now)
+        return "${max(1, next.intervalDays.roundToInt())}d"
+    }
+
     fun formatIntervalHintDays(days: Double, grade: SRSGrade): String {
         if (grade == SRSGrade.AGAIN) return "<10m"
         if (days <= 0) {

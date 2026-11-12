@@ -2,6 +2,8 @@ package com.jianwang.vocab9000.data.repository
 
 import com.jianwang.vocab9000.data.db.AppDatabase
 import com.jianwang.vocab9000.data.entity.DeckEntity
+import com.jianwang.vocab9000.data.entity.FlashCardEntity
+import com.jianwang.vocab9000.data.entity.ProgressEntity
 import java.util.Calendar
 
 data class LetterProgress(
@@ -52,19 +54,7 @@ class StatsService(
         val learnedUserOnly = cards.count { it.catalogKey == null && it.isLearned }
         val learnedCount = learnedCatalog + learnedUserOnly
 
-        val dueProgress = progress.count { row ->
-            val next = row.nextReviewDate
-            if (next == null) row.isLearned && row.lastReviewed != null
-            else next <= now
-        }
-        val dueCards = cards.count { card ->
-            if (card.catalogKey != null && progressByKey[card.catalogKey] != null) false
-            else {
-                val next = card.nextReviewDate ?: return@count false
-                next <= now
-            }
-        }
-        val dueToday = dueProgress + dueCards
+        val dueToday = countDue(progress, cards, now)
 
         val reviewedToday = progress.count { row ->
             val last = row.lastReviewed ?: return@count false
@@ -124,6 +114,15 @@ class StatsService(
         )
     }
 
+    /** Lightweight due count for reminder notifications (no catalog / letter / deck work). */
+    suspend fun dueTodayCount(): Int {
+        return countDue(
+            db.progressDao().getAll(),
+            db.flashCardDao().getAll(),
+            System.currentTimeMillis(),
+        )
+    }
+
     companion object {
         fun startOfDay(millis: Long): Long {
             val cal = Calendar.getInstance()
@@ -161,6 +160,27 @@ class StatsService(
         fun localizedDeckTitle(title: String): String = when (title) {
             "__seed.starter50__", "はじめての50語" -> "はじめての50語"
             else -> title
+        }
+
+        fun countDue(
+            progress: List<ProgressEntity>,
+            cards: List<FlashCardEntity>,
+            now: Long,
+        ): Int {
+            val progressByKey = progress.associateBy { it.catalogKey }
+            val dueProgress = progress.count { row ->
+                val next = row.nextReviewDate
+                if (next == null) row.isLearned && row.lastReviewed != null
+                else next <= now
+            }
+            val dueCards = cards.count { card ->
+                if (card.catalogKey != null && progressByKey[card.catalogKey] != null) false
+                else {
+                    val next = card.nextReviewDate ?: return@count false
+                    next <= now
+                }
+            }
+            return dueProgress + dueCards
         }
     }
 }

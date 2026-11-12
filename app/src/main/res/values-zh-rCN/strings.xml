@@ -65,8 +65,11 @@
     <string name="settings_time_updated">已更新时间</string>
     <string name="settings_tts">朗读 (TTS)</string>
     <string name="settings_tts_language">TTS 语言</string>
-    <string name="settings_ui_language">界面语言（偏好设置）</string>
-    <string name="settings_ui_lang_hint">已保存界面语言设置。部分文案可能需重启应用后生效。</string>
+    <string name="settings_ui_language">界面语言</string>
+    <string name="settings_ui_lang_hint">已切换界面语言</string>
+    <string name="settings_exact_alarm_title">精确闹钟</string>
+    <string name="settings_exact_alarm_granted">可以在设定的时间发送通知</string>
+    <string name="settings_exact_alarm_denied">未允许精确闹钟，通知可能会延迟。点按以打开系统设置</string>
     <string name="settings_deeplink">深度链接</string>
     <string name="settings_deeplink_study">打开学习页</string>
     <string name="lang_en">英语</string>
