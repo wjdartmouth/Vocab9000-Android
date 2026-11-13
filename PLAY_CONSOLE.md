@@ -7,7 +7,7 @@ Draft answers and asset paths for a first Vocab9000 (`com.jianwang.vocab9000`) u
 **Public privacy policy URL (paste this into Play Console):**  
 https://wjdartmouth.github.io/Vocab9000-Android/privacy.html
 
-If that URL 404s, GitHub Pages is not enabled yet: GitHub → this repo → Settings → Pages → Deploy from a branch → `main` / `/docs` → Save. Source HTML lives in [`docs/`](./docs/).
+GitHub Pages is already enabled on `main` / `/docs` with HTTPS. If the URL ever 404s, check GitHub → this repo → Settings → Pages. Source HTML lives in [`docs/`](./docs/).
 
 ## Assets to upload
 
