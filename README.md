@@ -81,6 +81,9 @@ Vocab9000-Android/
 │   └── ui/            # Compose screens (catalog/decks/study/stats/settings)
 ├── app/src/main/assets/longman9000.json
 ├── gradle/wrapper/    # Official Gradle 8.9 wrapper
+├── play-assets/       # Play high-res icon + feature graphic
+├── docs/              # GitHub Pages (privacy policy HTML)
+├── PLAY_CONSOLE.md    # Data safety / rating / upload checklist
 ├── SIGNING.md         # Release signing + bundleRelease
 └── README.md
 ```
@@ -89,7 +92,8 @@ Vocab9000-Android/
 
 - 組み込み「All」デッキは約 9000 語の仮想デッキです。FlashCard を 9000 枚物性化せず、Progress 集計で扱います（iOS と同じ方針）。
 - ホーム画面ウィジェットは Android 版では未実装（将来対応可）。詳細は [REPORT.md](./REPORT.md)。
-- 出荷状況・残作業は [SHIP_STATUS.md](./SHIP_STATUS.md) を参照してください。Play 掲載文案の下書きは [STORE_LISTING.md](./STORE_LISTING.md) にあります。
+- 出荷状況・残作業は [SHIP_STATUS.md](./SHIP_STATUS.md) を参照してください。Play 掲載文案は [STORE_LISTING.md](./STORE_LISTING.md)、提出用チェックリストと Data safety 下書きは [PLAY_CONSOLE.md](./PLAY_CONSOLE.md)、アイコン／フィーチャーグラフィックは [play-assets/](./play-assets/) にあります。
+- 公開プライバシーポリシー: https://wjdartmouth.github.io/Vocab9000-Android/privacy.html （[PRIVACY_POLICY.md](./PRIVACY_POLICY.md) と同じ内容）
 
 ## ライセンス / 帰属
 

@@ -1,8 +1,12 @@
 # Play Store listing draft
 
-Draft copy for Play Console. Screenshots, a feature graphic, and a high-res icon are **not** included here — capture those from a device or emulator; do not invent images.
+Draft copy for Play Console. Data safety answers, content-rating guidance, and graphic asset paths are in [PLAY_CONSOLE.md](./PLAY_CONSOLE.md).
 
-**Still required before listing goes live:** host [PRIVACY_POLICY.md](./PRIVACY_POLICY.md) at a public HTTPS URL and paste that URL into Play Console (Privacy policy + Data safety). The in-repo markdown file is not a public URL by itself.
+**High-res icon and feature graphic** are in [play-assets/](./play-assets/) (`hi-res-icon.png`, `feature-graphic.png`). **Phone screenshots are not included** — capture those from a device or emulator; do not invent images.
+
+**Privacy policy URL** to paste into Play Console (Privacy policy + Data safety):  
+https://wjdartmouth.github.io/Vocab9000-Android/privacy.html  
+(HTML source: `docs/privacy.html`. If the URL 404s, enable GitHub Pages on `main` / `/docs` as described in PLAY_CONSOLE.md.)
 
 Suggested default listing language: English, with Japanese (and Chinese if you add those locales) as additional store translations.
 
@@ -86,11 +90,12 @@ Vocab9000 是面向 Longman Communication 9000 詞表的 Android 記憶卡應用
 
 應用程式 ID：com.jianwang.vocab9000。需要 Android 8.0（API 26）或更高版本。
 
-## Play Console checklist (not done in this draft)
+## Play Console checklist
 
-- Screenshots (phone; 7-inch / 10-inch tablet if you want those listings)
-- Feature graphic (1024 × 500)
-- High-res icon (512 × 512)
-- App category, contact email, and content rating questionnaire
-- Data safety form (see PRIVACY_POLICY.md: no account, local storage, optional dictionary network request)
-- Public privacy policy URL
+- [x] Short / full description drafts (this file)
+- [x] High-res icon and feature graphic (`play-assets/`)
+- [x] Data safety and content-rating *draft answers* ([PLAY_CONSOLE.md](./PLAY_CONSOLE.md))
+- [x] Public privacy policy HTML (`docs/privacy.html` → GitHub Pages URL in PLAY_CONSOLE.md)
+- [ ] Phone screenshots (and optional tablet shots) captured from a device or emulator
+- [ ] Play Console: category, contact email, content rating questionnaire, Data safety form, privacy URL
+- [ ] Signed `bundleRelease` AAB uploaded with your own upload key ([SIGNING.md](./SIGNING.md))

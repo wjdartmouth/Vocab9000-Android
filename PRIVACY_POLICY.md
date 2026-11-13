@@ -1,11 +1,13 @@
 # Privacy Policy — Vocab9000 (Android)
 
-**Last updated:** 10 November 2026  
+**Last updated:** 13 November 2026  
 **App:** Vocab9000 (`com.jianwang.vocab9000`)  
 **Developer:** Jian Wang  
 **Contact:** [GitHub Issues](https://github.com/wjdartmouth/Vocab9000-Android/issues)
 
-This policy describes how the Android edition of Vocab9000 handles information. The app is designed for on-device learning with minimal data leaving your device.
+**Public URL (for Play Console):** https://wjdartmouth.github.io/Vocab9000-Android/privacy.html
+
+This policy describes how the Android edition of Vocab9000 handles information. The app is designed for on-device learning with minimal data leaving your device. The same text is published as HTML at the public URL above (source: `docs/privacy.html`).
 
 ---
 
@@ -68,3 +70,29 @@ Vocab9000（Android）は **アカウント不要・広告なし・トラッキ�
 - **連絡先:** https://github.com/wjdartmouth/Vocab9000-Android/issues
 
 詳細は上記 English 本文に準じます。
+
+---
+
+## 简体中文（摘要）
+
+Vocab9000（Android）是一款**无需账号、无广告、无追踪**的单词学习应用。
+
+- **仅保存在设备上:** 学习进度、卡组、间隔重复数据等通过 **Room** 等存储在您的设备上。我们没有用于保存用户数据的服务器。
+- **可选网络:** 仅在查看英语释义时，向 **Free Dictionary API** 发送该英语词，成功后会缓存到本机。请求失败或离线时，仍可使用捆绑的日语/中文释义学习。
+- **通知:** 仅在设置中开启时使用**本地通知**（不是服务器推送）。
+- **联系方式:** https://github.com/wjdartmouth/Vocab9000-Android/issues
+
+完整说明以英文正文为准。
+
+---
+
+## 繁體中文（摘要）
+
+Vocab9000（Android）是一款**無需帳號、無廣告、無追蹤**的單字學習應用。
+
+- **僅保存在裝置上:** 學習進度、卡組、間隔重複資料等透過 **Room** 等儲存在您的裝置上。我們沒有用於保存使用者資料的伺服器。
+- **可選網路:** 僅在查看英語釋義時，向 **Free Dictionary API** 傳送該英語詞，成功後會快取到本機。請求失敗或離線時，仍可使用綁定的日語/中文釋義學習。
+- **通知:** 僅在設定中開啟時使用**本地通知**（不是伺服器推播）。
+- **聯絡方式:** https://github.com/wjdartmouth/Vocab9000-Android/issues
+
+完整說明以英文正文為準。
