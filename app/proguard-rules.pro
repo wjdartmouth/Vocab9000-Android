@@ -40,8 +40,9 @@
 }
 
 # --- Library consumer rules cover the rest ---
-# Coroutines, DataStore Preferences, and WorkManager ship their own consumer
-# ProGuard files. This app currently uses SharedPreferences (not DataStore)
-# and does not enqueue WorkManager workers; no extra keep rules are added.
-# Jetpack Compose is generally R8-safe with the default Android optimize file.
+# Coroutines, DataStore Preferences, WorkManager, and Glance ship their own
+# consumer ProGuard files. This app uses SharedPreferences (not DataStore)
+# and enqueues a periodic WidgetRefreshWorker plus Glance widget updates;
+# no extra keep rules are added. Jetpack Compose is generally R8-safe with
+# the default Android optimize file.
 # There are no Parcelable / @Parcelize types in this app.

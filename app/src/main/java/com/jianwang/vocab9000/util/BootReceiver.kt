@@ -3,6 +3,7 @@ package com.jianwang.vocab9000.util
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.jianwang.vocab9000.widget.WidgetDataPublisher
 
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
@@ -12,6 +13,8 @@ class BootReceiver : BroadcastReceiver() {
         ) {
             return
         }
+        WidgetDataPublisher.ensurePeriodic(context)
+        WidgetDataPublisher.requestPublish(context)
         val prefs = AppPreferences(context)
         if (prefs.notificationsEnabled) {
             NotificationHelper.scheduleDaily(

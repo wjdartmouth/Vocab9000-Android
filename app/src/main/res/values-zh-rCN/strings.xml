@@ -91,4 +91,11 @@
     <string name="action_cancel">取消</string>
     <string name="action_close">关闭</string>
     <string name="loading">加载中…</string>
+    <string name="widget_display_name">Vocab9000 学习</string>
+    <string name="widget_description">显示今日到期卡片与连续学习天数。</string>
+    <string name="widget_due_label">到期</string>
+    <string name="widget_streak">连续 %1$d 天</string>
+    <string name="widget_learned">%1$d 词</string>
+    <string name="widget_a11y">到期 %1$d，连续 %2$d 天，已掌握 %3$d</string>
+    <string name="widget_preview_sample">连续 3 天 · 120 词</string>
 </resources>

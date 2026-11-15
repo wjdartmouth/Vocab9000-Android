@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.jianwang.vocab9000.util.AppLocale
 import com.jianwang.vocab9000.util.NotificationHelper
+import com.jianwang.vocab9000.widget.WidgetDataPublisher
 
 class Vocab9000App : Application() {
     lateinit var container: AppContainer
@@ -17,5 +18,7 @@ class Vocab9000App : Application() {
         super.onCreate()
         container = AppContainer(this)
         NotificationHelper.ensureChannel(this)
+        WidgetDataPublisher.ensurePeriodic(this)
+        WidgetDataPublisher.requestPublish(this)
     }
 }

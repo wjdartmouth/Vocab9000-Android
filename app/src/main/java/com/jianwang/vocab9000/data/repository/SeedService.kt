@@ -21,6 +21,7 @@ class SeedService(
     private val context: Context,
     private val db: AppDatabase,
     private val catalog: CatalogStore,
+    private val onStudyDataChanged: () -> Unit = {},
 ) {
     private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
@@ -327,6 +328,7 @@ class SeedService(
             state = SRSService.schedule(state, grade)
             db.progressDao().upsert(applyToProgress(row, state))
         }
+        onStudyDataChanged()
     }
 
     suspend fun setLearned(catalogKey: String, word: String, learned: Boolean) {
@@ -346,6 +348,7 @@ class SeedService(
             SRSService.clearManualLearned()
         }
         db.progressDao().upsert(applyToProgress(row, state))
+        onStudyDataChanged()
     }
 
     private fun applyToProgress(row: ProgressEntity, state: SRSState) = row.copy(

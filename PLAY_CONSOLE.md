@@ -123,6 +123,7 @@ Still required before a production rollout. On API 26+ (ideally also a current s
 - [ ] Settings: UI language switch applies immediately; reminder toggle; exact-alarm row on API 31+
 - [ ] Daily reminder notification opens `vocab9000://study`
 - [ ] Cold start from `vocab9000://study`
+- [ ] Home-screen widget “Vocab9000 Study”: shows due / streak / learned, tap opens the study tab. Add it by long-pressing the home screen (or opening the widget picker) and choosing Vocab9000.
 - [ ] Optional English definition fetch (online) and cached reopen (offline)
 - [ ] Signed release AAB/APK installs and launches after R8 minify
 

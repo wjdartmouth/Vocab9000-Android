@@ -45,6 +45,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.jianwang.vocab9000.AppContainer
 import com.jianwang.vocab9000.R
 import com.jianwang.vocab9000.util.NotificationHelper
+import com.jianwang.vocab9000.widget.WidgetDataPublisher
 import kotlinx.coroutines.launch
 
 private val TTS_LANGS = listOf(
@@ -283,6 +284,7 @@ fun SettingsScreen(
                                 uiLang = code
                                 prefs.uiLanguage = code
                                 uiExpanded = false
+                                WidgetDataPublisher.requestPublish(context)
                                 (context as? Activity)?.recreate()
                             },
                         )

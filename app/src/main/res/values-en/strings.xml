@@ -91,4 +91,11 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
     <string name="loading">Loading…</string>
+    <string name="widget_display_name">Vocab9000 Study</string>
+    <string name="widget_description">Shows due cards and study streak.</string>
+    <string name="widget_due_label">Due</string>
+    <string name="widget_streak">%1$d-day streak</string>
+    <string name="widget_learned">%1$d words</string>
+    <string name="widget_a11y">%1$d due, %2$d-day streak, %3$d learned</string>
+    <string name="widget_preview_sample">3-day streak · 120 words</string>
 </resources>

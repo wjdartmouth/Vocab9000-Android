@@ -36,6 +36,14 @@ data class StudyStatsSnapshot(
     val byDeck: List<DeckProgress>,
 )
 
+/** Lightweight counts for the home-screen widget (no catalog / letter / deck work). */
+data class WidgetSnapshot(
+    val dueToday: Int = 0,
+    val streakDays: Int = 0,
+    val learnedCount: Int = 0,
+    val updatedAt: Long = 0L,
+)
+
 class StatsService(
     private val db: AppDatabase,
     private val catalog: CatalogStore,
@@ -123,6 +131,15 @@ class StatsService(
         )
     }
 
+    /** Due / streak / learned for the widget, using Progress aggregation only. */
+    suspend fun widgetSnapshot(): WidgetSnapshot {
+        return widgetSnapshotFrom(
+            db.progressDao().getAll(),
+            db.flashCardDao().getAll(),
+            System.currentTimeMillis(),
+        )
+    }
+
     companion object {
         fun startOfDay(millis: Long): Long {
             val cal = Calendar.getInstance()
@@ -160,6 +177,29 @@ class StatsService(
         fun localizedDeckTitle(title: String): String = when (title) {
             "__seed.starter50__", "はじめての50語" -> "はじめての50語"
             else -> title
+        }
+
+        fun learnedCount(
+            progress: List<ProgressEntity>,
+            cards: List<FlashCardEntity>,
+        ): Int {
+            val learnedCatalog = progress.count { it.isLearned }
+            val learnedUserOnly = cards.count { it.catalogKey == null && it.isLearned }
+            return learnedCatalog + learnedUserOnly
+        }
+
+        fun widgetSnapshotFrom(
+            progress: List<ProgressEntity>,
+            cards: List<FlashCardEntity>,
+            now: Long,
+        ): WidgetSnapshot {
+            val lastDates = progress.mapNotNull { it.lastReviewed } + cards.mapNotNull { it.lastReviewed }
+            return WidgetSnapshot(
+                dueToday = countDue(progress, cards, now),
+                streakDays = computeStreak(lastDates, now),
+                learnedCount = learnedCount(progress, cards),
+                updatedAt = now,
+            )
         }
 
         fun countDue(

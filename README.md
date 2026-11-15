@@ -62,6 +62,7 @@ JDK 17 と Android SDK（compile/target API 35）を用意し、`local.propertie
 - **オフライン**: カタログは assets、進捗・定義キャッシュは Room
 - **初回起動**: 組み込みデッキ＋「はじめての50語」サンプルをシード
 - **ディープリンク**: `vocab9000://study` で学習タブを開く
+- **ホーム画面ウィジェット**: 今日の期限・連続学習日数・習得語数。タップで学習タブを開く
 
 ## 技術スタック
 
@@ -69,6 +70,7 @@ JDK 17 と Android SDK（compile/target API 35）を用意し、`local.propertie
 - Navigation Compose
 - Room + coroutines / Flow
 - Android `TextToSpeech`
+- Glance ホーム画面ウィジェット + WorkManager
 - applicationId: `com.jianwang.vocab9000`
 
 ## ディレクトリ（概要）
@@ -78,7 +80,8 @@ Vocab9000-Android/
 ├── app/src/main/java/com/jianwang/vocab9000/
 │   ├── data/          # Room entities, DAOs, repositories
 │   ├── domain/        # CatalogEntry, SRSService, StudyItem
-│   └── ui/            # Compose screens (catalog/decks/study/stats/settings)
+│   ├── ui/            # Compose screens (catalog/decks/study/stats/settings)
+│   └── widget/        # Glance DueStreak home-screen widget
 ├── app/src/main/assets/longman9000.json
 ├── gradle/wrapper/    # Official Gradle 8.9 wrapper
 ├── play-assets/       # Play high-res icon + feature graphic
@@ -91,7 +94,7 @@ Vocab9000-Android/
 ## 注意
 
 - 組み込み「All」デッキは約 9000 語の仮想デッキです。FlashCard を 9000 枚物性化せず、Progress 集計で扱います（iOS と同じ方針）。
-- ホーム画面ウィジェットは Android 版では未実装（将来対応可）。詳細は [REPORT.md](./REPORT.md)。
+- ホーム画面ウィジェット「Vocab9000 学習」は、ホーム画面を長押し（またはウィジェット一覧）から追加できます。今日の期限・連続日数・習得語数を表示し、タップすると `vocab9000://study` で学習タブを開きます。学習や「覚えた」の更新後、UI 言語の変更後、および約 30 分ごとの WorkManager で最新の Progress 集計を反映します。
 - 出荷状況・残作業は [SHIP_STATUS.md](./SHIP_STATUS.md) を参照してください。Play 掲載文案は [STORE_LISTING.md](./STORE_LISTING.md)、提出用チェックリストと Data safety 下書きは [PLAY_CONSOLE.md](./PLAY_CONSOLE.md)、アイコン／フィーチャーグラフィックは [play-assets/](./play-assets/) にあります。
 - 公開プライバシーポリシー: https://wjdartmouth.github.io/Vocab9000-Android/privacy.html （[PRIVACY_POLICY.md](./PRIVACY_POLICY.md) と同じ内容）
 
